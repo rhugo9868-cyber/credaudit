@@ -10,13 +10,27 @@ import { ruPlural } from './password.js';
 const VISIBLE_BREACHES = 8;
 let token = 0;
 
+const PWD_RISK = {
+  plaintext: ['bad', 'пароли в открытом виде'],
+  easytocrack: ['bad', 'пароли легко подобрать'],
+  hardtocrack: ['warn', 'пароли захешированы стойко'],
+};
+
+/** Бейдж про пароли: только если пароли реально среди раскрытых данных; степень риска — по данным сервиса. */
+function passwordBadge(b) {
+  const has = (b.dataClasses || []).some((c) => ['passwords', 'password'].includes(String(c).toLowerCase()));
+  if (!has) return null;
+  const [kind, text] = PWD_RISK[String(b.passwordRisk || '').toLowerCase()] || ['warn', 'раскрыты пароли'];
+  return badge(kind, text);
+}
+
 function breachItem(b) {
   const classes = uniqueLabels(b.dataClasses || []);
   const meta = [b.year ? String(b.year) : null, b.domain || null, b.records ? `${fmtNum(b.records)} записей` : null].filter(Boolean).join(' · ');
   return el(
     'li',
     { class: 'breach' },
-    el('div', { class: 'breach-head' }, el('strong', {}, b.name || 'Без названия'), b.passwordRisk ? badge('bad', 'раскрыты пароли') : null),
+    el('div', { class: 'breach-head' }, el('strong', {}, b.name || 'Без названия'), passwordBadge(b)),
     meta ? el('div', { class: 'breach-meta' }, meta) : null,
     classes.length ? el('div', { class: 'chips' }, classes.slice(0, 12).map((c) => el('span', { class: 'chip' }, c))) : null
   );
