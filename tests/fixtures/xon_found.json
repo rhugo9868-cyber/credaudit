@@ -1,0 +1,92 @@
+{
+ "BreachMetrics": {
+  "risk": [
+   {
+    "risk_label": "Critical",
+    "risk_score": 100
+   }
+  ],
+  "passwords_strength": [
+   {
+    "EasyToCrack": 50,
+    "PlainText": 22,
+    "StrongHash": 50,
+    "Unknown": 93
+   }
+  ]
+ },
+ "BreachesSummary": {
+  "site": "McKesson;ManchesterAirportsGroup;WebHostingTalk;Dodonew"
+ },
+ "ExposedBreaches": {
+  "breaches_details": [
+   {
+    "breach": "McKesson",
+    "details": "McKesson, a healthcare and pharmaceutical company, was targeted by the ShinyHunters group in August 2026, with data later published online exposing 6.8M unique ",
+    "domain": "mckesson.com",
+    "industry": "Health Care",
+    "logo": "",
+    "password_risk": "unknown",
+    "references": "",
+    "searchable": "Yes",
+    "verified": "Yes",
+    "xposed_data": "Email addresses;Names;Phone numbers;Physical addresses;Dates of birth;Genders",
+    "xposed_date": "2026",
+    "xposed_records": 6832822,
+    "added": "2026-10-02T12:15:46+00:00"
+   },
+   {
+    "breach": "ManchesterAirportsGroup",
+    "details": "Manchester Airports Group (MAG), an airport operator, was compromised in August 2026, with data later published by the FulcrumSec group exposing email addresses",
+    "domain": "magairports.com",
+    "industry": "Transport",
+    "logo": "",
+    "password_risk": "unknown",
+    "references": "",
+    "searchable": "Yes",
+    "verified": "Yes",
+    "xposed_data": "Email addresses;Names;Phone numbers;IP addresses;Vehicle registration numbers;Geographic locations;Browser user agents",
+    "xposed_date": "2026",
+    "xposed_records": 8379476,
+    "added": "2026-09-03T07:41:36+00:00"
+   },
+   {
+    "breach": "WebHostingTalk",
+    "details": "Web Hosting Talk, a web hosting forum, was compromised in July 2016 with its database later listed for sale, exposing 515k user records including usernames, ema",
+    "domain": "webhostingtalk.com",
+    "industry": "Information Technology",
+    "logo": "",
+    "password_risk": "easytocrack",
+    "references": "",
+    "searchable": "Yes",
+    "verified": "Yes",
+    "xposed_data": "Email addresses;Usernames;Passwords;IP addresses",
+    "xposed_date": "2016",
+    "xposed_records": 515711,
+    "added": "2026-03-06T04:02:42+00:00"
+   },
+   {
+    "breach": "Dodonew",
+    "details": "Towards the end of 2011, the Chinese website Dodonew.com reportedly experienced a significant data breach, compromising the security of 11 million accounts. The",
+    "domain": "dodonew.com",
+    "industry": "Entertainment",
+    "logo": "",
+    "password_risk": "unknown",
+    "references": "",
+    "searchable": "Yes",
+    "verified": "No",
+    "xposed_data": "Usernames;Email addresses",
+    "xposed_date": "2011",
+    "xposed_records": 11761143,
+    "added": "2025-10-22T06:07:48+00:00"
+   }
+  ]
+ },
+ "ExposedPastes": null,
+ "PasteMetrics": null,
+ "PastesSummary": {
+  "cnt": 0,
+  "domain": "",
+  "tmpstmp": ""
+ }
+}

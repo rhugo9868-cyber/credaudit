@@ -1,0 +1,11 @@
+{
+  "name": "credaudit",
+  "version": "0.1.0",
+  "description": "Веб-сервис проверки пароля, e-mail и номера телефона на стойкость и утечки данных",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "start": "python3 -m http.server 8000 --directory frontend"
+  }
+}

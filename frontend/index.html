@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CredAudit — проверка пароля, e-mail и телефона</title>
+  <meta name="description" content="Проверка пароля, e-mail и номера телефона на стойкость и утечки данных с рекомендациями по защите.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>CredAudit</h1>
+      <p class="lead">Проверка пароля, e-mail и номера телефона на стойкость и утечки данных</p>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Разделы">
+    <div class="wrap tabs-row" role="tablist">
+      <button class="tab" role="tab" id="tabbtn-password" aria-controls="tab-password" aria-selected="true" data-tab="password">Пароль</button>
+      <button class="tab" role="tab" id="tabbtn-email" aria-controls="tab-email" aria-selected="false" data-tab="email">E-mail</button>
+      <button class="tab" role="tab" id="tabbtn-phone" aria-controls="tab-phone" aria-selected="false" data-tab="phone">Телефон</button>
+      <button class="tab" role="tab" id="tabbtn-report" aria-controls="tab-report" aria-selected="false" data-tab="report">Итог</button>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <!-- ===== Модуль 1. Пароль ===== -->
+    <section id="tab-password" class="panel" role="tabpanel" aria-labelledby="tabbtn-password">
+      <div class="card">
+        <h2>Проверка пароля</h2>
+        <p class="hint">Пароль не отправляется на сервер: в сервис утечек уходят только первые 5 символов его SHA-1-хеша.</p>
+
+        <label for="pwd" class="field-label">Пароль</label>
+        <div class="input-row">
+          <input id="pwd" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="Введите пароль для проверки" maxlength="128">
+          <button id="pwd-toggle" type="button" class="btn btn-ghost" aria-pressed="false">Показать</button>
+        </div>
+
+        <div class="meter" id="meter" data-score="" aria-live="polite">
+          <div class="meter-bar" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="meter-text"><strong id="meter-label">Введите пароль</strong> <span id="meter-detail"></span></div>
+        </div>
+
+        <div class="controls">
+          <div class="control">
+            <label for="policy" class="field-label">Политика стойкости</label>
+            <select id="policy"></select>
+          </div>
+          <button id="pwd-check" type="button" class="btn btn-primary">Проверить пароль</button>
+        </div>
+        <p class="hint" id="policy-desc"></p>
+      </div>
+
+      <div id="pwd-results" class="results" hidden>
+        <div class="card" id="res-leak"></div>
+        <div class="card" id="res-strength"></div>
+        <div class="card" id="res-policy"></div>
+        <div class="card" id="res-reco"></div>
+      </div>
+
+      <div class="card">
+        <h2>Генератор паролей</h2>
+        <p class="hint">Пароль создаётся прямо в браузере криптографическим генератором случайных чисел и сразу проходит проверку.</p>
+        <div class="gen-grid">
+          <div class="control">
+            <label for="gen-length" class="field-label">Длина: <output id="gen-length-out">16</output></label>
+            <input id="gen-length" type="range" min="8" max="64" value="16">
+          </div>
+          <fieldset class="checks">
+            <legend class="field-label">Символы</legend>
+            <label><input type="checkbox" id="gen-lower" checked> строчные a–z</label>
+            <label><input type="checkbox" id="gen-upper" checked> заглавные A–Z</label>
+            <label><input type="checkbox" id="gen-digits" checked> цифры</label>
+            <label><input type="checkbox" id="gen-symbols" checked> спецсимволы</label>
+            <label><input type="checkbox" id="gen-ambiguous"> без похожих (O, 0, l, 1)</label>
+          </fieldset>
+        </div>
+        <div class="input-row">
+          <input id="gen-output" type="text" readonly aria-label="Сгенерированный пароль" placeholder="Нажмите «Сгенерировать»">
+          <button id="gen-copy" type="button" class="btn btn-ghost">Копировать</button>
+          <button id="gen-run" type="button" class="btn btn-primary">Сгенерировать</button>
+        </div>
+        <p class="hint" id="gen-info" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- ===== Модуль 2. E-mail ===== -->
+    <section id="tab-email" class="panel" role="tabpanel" aria-labelledby="tabbtn-email" hidden>
+      <div class="card">
+        <h2>Проверка e-mail</h2>
+        <p class="hint">Адрес отправляется на серверную часть сайта, а она запрашивает базы утечек. Адрес не сохраняется и не попадает в журналы. Проверяйте только свои адреса.</p>
+        <label for="email" class="field-label">Адрес электронной почты</label>
+        <div class="input-row">
+          <input id="email" type="email" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="name@example.com" maxlength="254">
+          <button id="email-check" type="button" class="btn btn-primary">Проверить e-mail</button>
+        </div>
+        <p class="field-error" id="email-error" aria-live="polite"></p>
+      </div>
+      <div id="email-results" class="results" hidden aria-live="polite"></div>
+    </section>
+
+    <!-- ===== Модуль 3. Телефон ===== -->
+    <section id="tab-phone" class="panel" role="tabpanel" aria-labelledby="tabbtn-phone" hidden>
+      <div class="card">
+        <h2>Анализ номера телефона</h2>
+        <p class="hint">Номер разбирается прямо в браузере и никуда не отправляется.</p>
+        <label for="phone" class="field-label">Номер телефона</label>
+        <div class="input-row">
+          <select id="phone-country" aria-label="Страна по умолчанию"></select>
+          <input id="phone" type="tel" autocomplete="off" spellcheck="false" placeholder="+7 912 345-67-89" maxlength="32">
+          <button id="phone-check" type="button" class="btn btn-primary">Проверить номер</button>
+        </div>
+        <p class="field-error" id="phone-error" aria-live="polite"></p>
+      </div>
+      <div id="phone-results" class="results" hidden aria-live="polite"></div>
+    </section>
+
+    <!-- ===== Итог ===== -->
+    <section id="tab-report" class="panel" role="tabpanel" aria-labelledby="tabbtn-report" hidden>
+      <div id="report-body"></div>
+      <div class="next-row no-print">
+        <button id="report-print" type="button" class="btn btn-ghost" hidden>Сохранить в PDF / печать</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Проверяйте только свои данные. Пароль и телефон остаются в браузере, адрес e-mail не сохраняется.</div>
+  </footer>
+
+  <!-- Библиотека оценки стойкости (локальные копии, без внешних CDN) -->
+  <script src="vendor/zxcvbn-ts-core.js"></script>
+  <script src="vendor/zxcvbn-ts-language-common.js"></script>
+  <script src="vendor/zxcvbn-ts-language-en.js"></script>
+  <!-- Разбор телефонных номеров (libphonenumber-js, локальная копия) -->
+  <script src="vendor/libphonenumber-js-max.js"></script>
+  <script src="js/config.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
